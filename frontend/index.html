@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Registry - Registro de Mascotas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .hero-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .status-indicator {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .status-online { background-color: #28a745; }
+        .status-offline { background-color: #dc3545; }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-section {
+                padding: 20px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🐕 Pet Registry</h1>
+            <p>Sistema inteligente de registro de mascotas con códigos QR y GPS</p>
+        </header>
+
+        <main>
+            <section class="hero-section">
+                <h2>¡Nunca más pierdas a tu mascota!</h2>
+                <p>Registra a tu mascota, genera un código QR único y recibe alertas instantáneas con ubicación GPS cuando alguien la encuentre.</p>
+                
+                <div style="margin: 30px 0;">
+                    <a href="#" class="cta-button" onclick="testServer()">🧪 Probar Servidor</a>
+                    <a href="register.html" class="cta-button">📝 Registrar Mascota</a>
+                </div>
+
+                <div class="status-indicator">
+                    <h3>Estado del Sistema</h3>
+                    <div id="server-status">
+                        <span class="status-dot status-offline"></span>
+                        <span>Verificando conexión...</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Código QR Único</h3>
+                    <p>Genera un código QR personalizado para cada mascota. Fácil de imprimir y colocar en el collar.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Ubicación GPS</h3>
+                    <p>Recibe la ubicación exacta cuando alguien escanee el código QR de tu mascota perdida.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📧</div>
+                    <h3>Alertas Instantáneas</h3>
+                    <p>Notificaciones por email, WhatsApp y SMS cuando encuentren a tu mascota.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🆓</div>
+                    <h3>Gratis para Empezar</h3>
+                    <p>Registro básico completamente gratuito. Funciones premium disponibles.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Función para probar la conexión con el servidor
+        async function testServer() {
+            const statusElement = document.getElementById('server-status');
+            
+            try {
+                statusElement.innerHTML = '<span class="status-dot status-offline"></span><span>Conectando...</span>';
+                
+                const response = await fetch('/api/test');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    statusElement.innerHTML = `
+                        <span class="status-dot status-online"></span>
+                        <span>✅ Servidor funcionando correctamente</span>
+                        <br><small>Mensaje: ${data.message}</small>
+                    `;
+                    
+                    alert('🚀 ¡Conexión exitosa!\n\n' + data.message);
+                } else {
+                    throw new Error('Error en la respuesta');
+                }
+            } catch (error) {
+                statusElement.innerHTML = `
+                    <span class="status-dot status-offline"></span>
+                    <span>❌ Error de conexión</span>
+                    <br><small>Asegúrate de que el servidor esté ejecutándose</small>
+                `;
+                
+                alert('❌ Error de conexión\n\nAsegúrate de que el servidor esté ejecutándose con: npm start');
+            }
+        }
+
+        // Verificar estado del servidor al cargar la página
+        window.addEventListener('load', testServer);
+    </script>
+</body>
+</html>

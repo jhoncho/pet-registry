@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Mascota - Pet Registry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .form-section h3 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto 0;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-btn">← Volver al inicio</a>
+        
+        <div class="header">
+            <h1>📝 Registrar Nueva Mascota</h1>
+            <p>Completa la información básica para generar el código QR</p>
+        </div>
+
+        <form id="petRegistrationForm">
+            <!-- Sección: Información del Propietario -->
+            <div class="form-section">
+                <h3>👤 Información del Propietario</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ownerName">Nombre Completo <span class="required">*</span></label>
+                        <input type="text" id="ownerName" name="ownerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ownerEmail">Email <span class="required">*</span></label>
+                        <input type="email" id="ownerEmail" name="ownerEmail" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ownerPhone">Teléfono <span class="required">*</span></label>
+                        <input type="tel" id="ownerPhone" name="ownerPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ownerCity">Ciudad <span class="required">*</span></label>
+                        <input type="text" id="ownerCity" name="ownerCity" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Información de la Mascota -->
+            <div class="form-section">
+                <h3>🐕 Información de la Mascota</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="petName">Nombre de la Mascota <span class="required">*</span></label>
+                        <input type="text" id="petName" name="petName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="petSpecies">Especie <span class="required">*</span></label>
+                        <select id="petSpecies" name="petSpecies" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="dog">🐕 Perro</option>
+                            <option value="cat">🐱 Gato</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="petSex">Sexo <span class="required">*</span></label>
+                        <select id="petSex" name="petSex" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="male">Macho</option>
+                            <option value="female">Hembra</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="petColor">Color Principal <span class="required">*</span></label>
+                        <input type="text" id="petColor" name="petColor" required placeholder="Ej: Marrón, Negro, Blanco">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="petAge">Edad (años)</label>
+                        <input type="number" id="petAge" name="petAge" min="0" max="30">
+                    </div>
+                    <div class="form-group">
+                        <label for="petBreed">Raza (opcional)</label>
+                        <input type="text" id="petBreed" name="petBreed" placeholder="Ej: Labrador, Persa">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="petMicrochip">Número de Microchip (opcional)</label>
+                        <input type="text" id="petMicrochip" name="petMicrochip" placeholder="Si tiene microchip">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Configuración de Alertas -->
+            <div class="form-section">
+                <h3>🚨 Configuración de Alertas GPS</h3>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="gpsAlerts" name="gpsAlerts" checked>
+                    <label for="gpsAlerts">Activar alertas de ubicación GPS</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="alertEmail" name="alertEmail" checked>
+                    <label for="alertEmail">Recibir alertas por Email</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="alertWhatsapp" name="alertWhatsapp">
+                    <label for="alertWhatsapp">Recibir alertas por WhatsApp</label>
+                </div>
+                <div class="form-group" id="whatsappGroup" style="display: none;">
+                    <label for="whatsappNumber">Número de WhatsApp</label>
+                    <input type="tel" id="whatsappNumber" name="whatsappNumber" placeholder="+1234567890">
+                </div>
+            </div>
+
+            <div class="loading" id="loading">
+                <p>🔄 Registrando mascota...</p>
+            </div>
+
+            <div class="success-message" id="successMessage"></div>
+            <div class="error-message" id="errorMessage"></div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                📝 Registrar Mascota y Generar QR
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Mostrar/ocultar campo de WhatsApp
+        document.getElementById('alertWhatsapp').addEventListener('change', function() {
+            const whatsappGroup = document.getElementById('whatsappGroup');
+            whatsappGroup.style.display = this.checked ? 'block' : 'none';
+        });
+
+        // Manejar envío del formulario
+        document.getElementById('petRegistrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Ocultar mensajes anteriores
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            // Mostrar loading
+            submitBtn.disabled = true;
+            loading.style.display = 'block';
+
+            try {
+                // Recopilar datos del formulario
+                const formData = new FormData(this);
+                const data = {
+                    owner: {
+                        name: formData.get('ownerName'),
+                        email: formData.get('ownerEmail'),
+                        phone: formData.get('ownerPhone'),
+                        city: formData.get('ownerCity')
+                    },
+                    pet: {
+                        name: formData.get('petName'),
+                        species: formData.get('petSpecies'),
+                        sex: formData.get('petSex'),
+                        color: formData.get('petColor'),
+                        age_years: formData.get('petAge') ? parseInt(formData.get('petAge')) : null,
+                        breed: formData.get('petBreed') || null,
+                        microchip: formData.get('petMicrochip') || null,
+                        gps_alerts: formData.get('gpsAlerts') === 'on',
+                        alert_email: formData.get('alertEmail') === 'on',
+                        alert_whatsapp: formData.get('alertWhatsapp') === 'on',
+                        whatsapp_number: formData.get('whatsappNumber') || null
+                    }
+                };
+
+                // Enviar datos al servidor
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    // Éxito - mostrar resultado
+                    successMessage.innerHTML = `
+                        <h3>🎉 ¡Registro Exitoso!</h3>
+                        <p><strong>Mascota:</strong> ${result.pet.name}</p>
+                        <p><strong>Código QR:</strong> ${result.qr_code}</p>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <img src="${result.qr_image}" alt="Código QR" style="max-width: 200px;">
+                        </div>
+                        <p><strong>URL del perfil:</strong> <a href="${result.qr_url}" target="_blank">${result.qr_url}</a></p>
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button onclick="downloadQR('${result.qr_image}', '${result.pet.name}')" style="background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                                📥 Descargar QR
+                            </button>
+                        </div>
+                    `;
+                    successMessage.style.display = 'block';
+                    
+                    // Limpiar formulario
+                    this.reset();
+                } else {
+                    // Error del servidor
+                    errorMessage.innerHTML = `
+                        <h3>❌ Error en el registro</h3>
+                        <p>${result.error || 'Error desconocido'}</p>
+                    `;
+                    errorMessage.style.display = 'block';
+                }
+
+            } catch (error) {
+                // Error de conexión
+                errorMessage.innerHTML = `
+                    <h3>❌ Error de conexión</h3>
+                    <p>No se pudo conectar con el servidor. Verifica tu conexión e intenta nuevamente.</p>
+                `;
+                errorMessage.style.display = 'block';
+            } finally {
+                // Ocultar loading
+                submitBtn.disabled = false;
+                loading.style.display = 'none';
+            }
+        });
+
+        // Función para descargar QR
+        function downloadQR(dataUrl, petName) {
+            const link = document.createElement('a');
+            link.download = `QR_${petName.replace(/\s+/g, '_')}.png`;
+            link.href = dataUrl;
+            link.click();
+        }
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pet Registry - Registro de Mascotas</title>
+    <title>PetFamily - Protegemos a Quien Más Amas</title>
     <style>
         * {
             margin: 0;
@@ -12,212 +12,942 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            color: #2d3748;
+            background: #fff5f5;
         }
 
-        .container {
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid #fed7d7;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
         }
 
-        .header {
-            text-align: center;
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: #ff6b6b;
+            transform: translateY(-2px);
+        }
+
+        .nav-cta {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
             color: white;
-            margin-bottom: 50px;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            transition: all 0.3s ease;
         }
 
-        .header h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        .nav-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
         }
 
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .hero-section {
-            background: white;
-            border-radius: 15px;
-            padding: 40px;
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 5rem;
+            background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 50%, #fdf2f8 100%);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .hero-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            background: linear-gradient(45deg, #fed7d7, #fbb6ce);
+            color: #744210;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+            border: 2px solid #ff6b6b;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .hero .subtitle {
+            font-size: 1.4rem;
+            color: #4a5568;
+            margin-bottom: 3rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #ff6b6b;
+            padding: 1.2rem 2.5rem;
+            border: 3px solid #ff6b6b;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #ff6b6b;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .hero-pets {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .pet-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            transform: rotate(-2deg);
+            transition: all 0.3s ease;
+            border: 3px solid #fed7d7;
         }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
+        .pet-card:nth-child(2) {
+            transform: rotate(2deg);
+        }
+
+        .pet-card:nth-child(3) {
+            transform: rotate(-1deg);
+        }
+
+        .pet-card:hover {
+            transform: rotate(0deg) translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .pet-emoji {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .pet-name {
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .pet-status {
+            color: #38a169;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Features */
+        .features {
+            padding: 8rem 2rem;
+            background: white;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .section-header p {
+            font-size: 1.3rem;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .feature {
+            background: linear-gradient(135deg, #fff5f5, #fef2f2);
+            padding: 3rem;
+            border-radius: 25px;
+            text-align: center;
+            border: 3px solid #fed7d7;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.1) 0%, transparent 70%);
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2);
+            border-color: #ff6b6b;
+        }
+
+        .feature:hover::before {
+            top: -25%;
+            right: -25%;
         }
 
         .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
         }
 
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px 30px;
-            border: none;
+        .feature h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #2d3748;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature p {
+            color: #4a5568;
+            line-height: 1.6;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Process */
+        .process {
+            padding: 8rem 2rem;
+            background: linear-gradient(135deg, #fdf2f8, #fef2f2);
+        }
+
+        .process-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .step {
+            background: white;
+            padding: 3rem 2rem;
             border-radius: 25px;
-            font-size: 1.1rem;
-            text-decoration: none;
-            cursor: pointer;
+            text-align: center;
+            border: 3px solid #fed7d7;
+            position: relative;
             transition: all 0.3s ease;
-            margin: 10px;
         }
 
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        .step:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.2);
+            border-color: #ff6b6b;
         }
 
-        .status-indicator {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
+        .step-number {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
             border-radius: 50%;
-            display: inline-block;
-            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
         }
 
-        .status-online { background-color: #28a745; }
-        .status-offline { background-color: #dc3545; }
+        .step h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
 
+        .step p {
+            color: #4a5568;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 8rem 2rem;
+            background: white;
+        }
+
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .testimonial {
+            background: linear-gradient(135deg, #fff5f5, #fef2f2);
+            padding: 3rem;
+            border-radius: 25px;
+            border-left: 6px solid #ff6b6b;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.15);
+        }
+
+        .testimonial-content {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #2d3748;
+            margin-bottom: 2rem;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.3rem;
+        }
+
+        .author-info h4 {
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info p {
+            color: #4a5568;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* Stats */
+        .stats {
+            padding: 6rem 2rem;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stats h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2.5rem 1.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat h3 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        /* CTA */
+        .cta {
+            padding: 8rem 2rem;
+            background: linear-gradient(135deg, #fdf2f8, #fff5f5);
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .cta p {
+            font-size: 1.3rem;
+            color: #4a5568;
+            margin-bottom: 3rem;
+            font-weight: 500;
+        }
+
+        .cta-hearts {
+            font-size: 2rem;
+            margin: 2rem 0;
+            opacity: 0.7;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2d3748;
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #ff6b6b;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #cbd5e0;
+            text-decoration: none;
+            line-height: 1.8;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ff6b6b;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #4a5568;
+            color: #a0aec0;
+            font-weight: 500;
+        }
+
+        /* Mobile */
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
+            .nav-menu {
+                display: none;
             }
-            
-            .hero-section {
-                padding: 20px;
+
+            .hero h1 {
+                font-size: 2.8rem;
             }
-            
-            .features {
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features-grid {
                 grid-template-columns: 1fr;
             }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-pets {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Fun animations */
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+            40%, 43% { transform: translateY(-20px); }
+            70% { transform: translateY(-10px); }
+            90% { transform: translateY(-4px); }
+        }
+
+        .feature-icon:hover {
+            animation: bounce 1s;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>🐕 Pet Registry</h1>
-            <p>Sistema inteligente de registro de mascotas con códigos QR y GPS</p>
-        </header>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="logo">
+                🐾 PetFamily
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#caracteristicas">¿Por qué elegirnos?</a></li>
+                <li><a href="#proceso">Cómo funciona</a></li>
+                <li><a href="#testimonios">Historias felices</a></li>
+            </ul>
+            <a href="/signup" class="nav-cta">¡Proteger mi mascota!</a>
+        </div>
+    </nav>
 
-        <main>
-            <section class="hero-section">
-                <h2>¡Nunca más pierdas a tu mascota!</h2>
-                <p>Registra a tu mascota, genera un código QR único y recibe alertas instantáneas con ubicación GPS cuando alguien la encuentre.</p>
-                
-                <div style="margin: 30px 0;">
-                    <a href="#" class="cta-button" onclick="testServer()">🧪 Probar Servidor</a>
-                    <a href="register.html" class="cta-button">📝 Registrar Mascota</a>
+    <!-- Hero -->
+    <section id="inicio" class="hero">
+        <div class="hero-container">
+            <div class="hero-badge">🏆 Más de 5,000 mascotas felices</div>
+            <h1>Tu Mascota Segura, Tu Corazón Tranquilo</h1>
+            <p class="subtitle">El sistema más cariñoso y efectivo para proteger a tu compañero peludo. Porque sabemos que son familia, no mascotas.</p>
+            <div class="hero-buttons">
+                <a href="#registro" class="btn-primary">💖 Proteger a Mi Familia</a>
+                <a href="#proceso" class="btn-secondary">🤔 Ver Cómo Funciona</a>
+            </div>
+            <div class="hero-pets">
+                <div class="pet-card">
+                    <div class="pet-emoji">🐕</div>
+                    <div class="pet-name">Max</div>
+                    <div class="pet-status">✅ Protegido</div>
                 </div>
+                <div class="pet-card">
+                    <div class="pet-emoji">🐱</div>
+                    <div class="pet-name">Luna</div>
+                    <div class="pet-status">✅ Segura</div>
+                </div>
+                <div class="pet-card">
+                    <div class="pet-emoji">🐰</div>
+                    <div class="pet-name">Coco</div>
+                    <div class="pet-status">✅ Feliz</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="status-indicator">
-                    <h3>Estado del Sistema</h3>
-                    <div id="server-status">
-                        <span class="status-dot status-offline"></span>
-                        <span>Verificando conexión...</span>
+    <!-- Features -->
+    <section id="caracteristicas" class="features">
+        <div class="features-container">
+            <div class="section-header">
+                <h2>Protección con Amor y Tecnología</h2>
+                <p>Cada característica está pensada para darte la tranquilidad que mereces</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">📱</div>
+                    <h3>Código QR Mágico</h3>
+                    <p>Un pequeño código que puede hacer grandes milagros. Cualquier persona puede escanearlo y ayudarte a reunirte con tu peludo compañero.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🌍</div>
+                    <h3>GPS que No Descansa</h3>
+                    <p>Te envía la ubicación exacta donde encontraron a tu mascota. Con mapas incluidos para que llegues lo más rápido posible.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Alertas de Corazón</h3>
+                    <p>Notificaciones instantáneas que llegan directo a tu corazón. Email, WhatsApp, donde sea que estés.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🏥</div>
+                    <h3>Perfil Completo de Salud</h3>
+                    <p>Información médica, vacunas, alergias. Todo lo que necesitan saber para cuidar bien a tu mascota hasta que llegues.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Privacidad Familiar</h3>
+                    <p>Tus datos están seguros como en casa. Solo compartimos lo necesario para que tu mascota vuelva a tus brazos.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💝</div>
+                    <h3>Precio de Corazón</h3>
+                    <p>Solo $14 USD una vez. Porque proteger a tu familia no debería ser un lujo, sino un derecho.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process -->
+    <section id="proceso" class="process">
+        <div class="process-container">
+            <div class="section-header">
+                <h2>Súper Fácil en 4 Pasos</h2>
+                <p>Tan simple que hasta tu mascota podría hacerlo (bueno, casi)</p>
+            </div>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>📝 Comparte su Historia</h3>
+                    <p>Cuéntanos sobre tu mascota: su nombre, cómo es, qué le gusta. Mientras más sepamos, mejor la cuidaremos.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>🎨 Recibe su QR Único</h3>
+                    <p>Te creamos un código QR hermoso y único, tan especial como tu mascota. Listo para descargar e imprimir.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>🎀 Al Collar con Amor</h3>
+                    <p>Ponlo en su collar favorito, resistente al agua y a sus travesuras. ¡Que luzca su nueva identificación con orgullo!</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>💕 Duerme Tranquilo</h3>
+                    <p>Si algún día se pierde (¡esperamos que no!), recibirás su ubicación al instante. Promesa de familia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stats-container">
+            <h2>💕 Familias Felices Nos Respaldan</h2>
+            <div class="stats-grid">
+                <div class="stat">
+                    <h3>5,247</h3>
+                    <p>Peludos Protegidos</p>
+                </div>
+                <div class="stat">
+                    <h3>2,156</h3>
+                    <p>Reuniones Felices</p>
+                </div>
+                <div class="stat">
+                    <h3>98%</h3>
+                    <p>Familias Contentas</p>
+                </div>
+                <div class="stat">
+                    <h3>8min</h3>
+                    <p>Promedio de Reencuentro</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonios" class="testimonials">
+        <div class="testimonials-container">
+            <div class="section-header">
+                <h2>Historias que Tocan el Corazón</h2>
+                <p>Cada reencuentro es una victoria para toda la familia</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "¡No puedo creer lo rápido que funcionó! Mi pequeño Toby se escapó en el parque y en 15 minutos ya sabía exactamente dónde estaba. Los vecinos escanearon su QR y me llegó todo al WhatsApp. ¡Magia pura!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">C</div>
+                        <div class="author-info">
+                            <h4>Carmen López</h4>
+                            <p>Mamá de Toby el Travieso</p>
+                        </div>
                     </div>
                 </div>
-            </section>
-
-            <section class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>Código QR Único</h3>
-                    <p>Genera un código QR personalizado para cada mascota. Fácil de imprimir y colocar en el collar.</p>
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "Como madre soltera, saber que mi gata Mimi tiene esta protección me da una paz mental increíble. Es como tener un guardian angel digital que cuida de ella las 24 horas."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">A</div>
+                        <div class="author-info">
+                            <h4>Andrea Morales</h4>
+                            <p>Mamá de Mimi la Aventurera</p>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <h3>Ubicación GPS</h3>
-                    <p>Recibe la ubicación exacta cuando alguien escanee el código QR de tu mascota perdida.</p>
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "Mi hijo de 8 años lloró de felicidad cuando encontramos a Buddy gracias al QR. Ver su carita de alegría no tiene precio. Esta tecnología es un regalo para las familias."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">R</div>
+                        <div class="author-info">
+                            <h4>Roberto Silva</h4>
+                            <p>Papá de Mateo y Buddy</p>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="feature-card">
-                    <div class="feature-icon">📧</div>
-                    <h3>Alertas Instantáneas</h3>
-                    <p>Notificaciones por email, WhatsApp y SMS cuando encuentren a tu mascota.</p>
-                </div>
+    <!-- CTA -->
+    <section id="registro" class="cta">
+        <div class="cta-container">
+            <h2>Dale a Tu Mascota el Amor que Merece</h2>
+            <p>Únete a miles de familias que ya duermen tranquilas sabiendo que sus peludos están protegidos</p>
+            <div class="cta-hearts">💖 🐾 💖 🐾 💖</div>
+            <a href="/signup" class="btn-primary" style="font-size: 1.3rem; padding: 1.5rem 3rem;">💕 Proteger a Mi Mascota Ahora</a>
+        </div>
+    </section>
 
-                <div class="feature-card">
-                    <div class="feature-icon">🆓</div>
-                    <h3>Gratis para Empezar</h3>
-                    <p>Registro básico completamente gratuito. Funciones premium disponibles.</p>
-                </div>
-            </section>
-        </main>
-    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>🐾 PetFamily</h3>
+                <p>Donde la tecnología se encuentra con el amor incondicional. Protegemos a quienes más amas.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <p><a href="/admin/pets">Panel Administrativo</a></p>
+                <p><a href="#proceso">Cómo Funciona</a></p>
+                <p><a href="#caracteristicas">Características</a></p>
+                <p><a href="/ayuda">Centro de Ayuda</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Contáctanos</h3>
+                <p>📧 familias@petfamily.com</p>
+                <p>📱 WhatsApp: +591 69977949</p>
+                <p>⏰ Disponibles 24/7 para tu familia</p>
+            </div>
+            <div class="footer-section">
+                <h3>Síguenos</h3>
+                <p><a href="#">📘 Facebook</a></p>
+                <p><a href="#">📸 Instagram</a></p>
+                <p><a href="#">🎵 TikTok</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 PetFamily. Hecho con 💖 para familias que aman a sus mascotas 🐾.</p>
+        </div>
+    </footer>
 
     <script>
-        // Función para probar la conexión con el servidor
-        async function testServer() {
-            const statusElement = document.getElementById('server-status');
-            
-            try {
-                statusElement.innerHTML = '<span class="status-dot status-offline"></span><span>Conectando...</span>';
-                
-                const response = await fetch('/api/test');
-                const data = await response.json();
-                
-                if (response.ok) {
-                    statusElement.innerHTML = `
-                        <span class="status-dot status-online"></span>
-                        <span>✅ Servidor funcionando correctamente</span>
-                        <br><small>Mensaje: ${data.message}</small>
-                    `;
-                    
-                    alert('🚀 ¡Conexión exitosa!\n\n' + data.message);
-                } else {
-                    throw new Error('Error en la respuesta');
+        // Smooth scrolling navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
-            } catch (error) {
-                statusElement.innerHTML = `
-                    <span class="status-dot status-offline"></span>
-                    <span>❌ Error de conexión</span>
-                    <br><small>Asegúrate de que el servidor esté ejecutándose</small>
-                `;
-                
-                alert('❌ Error de conexión\n\nAsegúrate de que el servidor esté ejecutándose con: npm start');
-            }
-        }
+            });
+        });
 
-        // Verificar estado del servidor al cargar la página
-        window.addEventListener('load', testServer);
+        // Dynamic navigation background
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(255, 255, 255, 0.98)';
+                nav.style.borderBottom = '2px solid #ff6b6b';
+            } else {
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                nav.style.borderBottom = '2px solid #fed7d7';
+            }
+        });
+
+        // Fun pet card interactions
+        document.querySelectorAll('.pet-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'rotate(0deg) translateY(-15px) scale(1.05)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                const rotations = ['-2deg', '2deg', '-1deg'];
+                const randomRotation = rotations[Math.floor(Math.random() * rotations.length)];
+                this.style.transform = `rotate(${randomRotation}) translateY(0px) scale(1)`;
+            });
+        });
+
+        // Redirect to registration form
+        document.querySelectorAll('a[href="/"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = '/';
+            });
+        });
+
+      
     </script>
 </body>
 </html>

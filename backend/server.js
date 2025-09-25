@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 // ===========================================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Configurar EJS como motor de plantillas
 app.set('view engine', 'ejs');
@@ -103,9 +103,109 @@ db.run('ALTER TABLE pets ADD COLUMN pet_code VARCHAR(20)', (err) => {
 }
 
 // ===========================================
+// RUTA PARA REGISTRO DE USUARIO (DUEÑO)
+// ===========================================
+app.get('/signup', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/register-user.html'));
+});
+
+// ===========================================
+// API PARA REGISTRAR NUEVO USUARIO
+// ===========================================
+app.post('/api/register-user', async (req, res) => {
+    try {
+        const { 
+            firstName, lastName, email, phone, 
+            password, address, city, country 
+        } = req.body;
+        
+        // Crear tabla de usuarios si no existe
+        db.run(`
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                first_name TEXT NOT NULL,
+                last_name TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL,
+                phone TEXT NOT NULL,
+                password TEXT NOT NULL,
+                address TEXT,
+                city TEXT,
+                country TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                is_active BOOLEAN DEFAULT true
+            )
+        `, (err) => {
+            if (err) {
+                console.error('Error creando tabla users:', err);
+            }
+        });
+        
+        // Verificar si el email ya existe
+        db.get('SELECT id FROM users WHERE email = ?', [email], (err, existingUser) => {
+            if (existingUser) {
+                return res.json({
+                    success: false,
+                    error: 'Este correo electrónico ya está registrado'
+                });
+            }
+            
+            // Insertar nuevo usuario
+            const insertQuery = `
+                INSERT INTO users (
+                    first_name, last_name, email, phone, 
+                    password, address, city, country
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            `;
+            
+            db.run(insertQuery, [
+                firstName, lastName, email, phone, 
+                password, address, city, country
+            ], function(err) {
+                if (err) {
+                    console.error('Error guardando usuario:', err);
+                    return res.status(500).json({
+                        success: false,
+                        error: 'Error creando la cuenta'
+                    });
+                }
+                
+                res.json({
+                    success: true,
+                    userId: this.lastID,
+                    message: 'Usuario registrado exitosamente'
+                });
+            });
+        });
+        
+    } catch (error) {
+        console.error('Error en registro de usuario:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Error interno del servidor'
+        });
+    }
+});
+
+// ===========================================
+// RUTA PARA REGISTRO DE MASCOTA (con usuario logueado)
+// ===========================================
+app.get('/register-pet', (req, res) => {
+    // Tu formulario actual de registro de mascotas
+    // pero ahora verifica que el usuario esté logueado
+    res.send(registrationHTML); // Tu HTML actual del formulario
+});
+
+// Renombrar tu ruta actual de /register a /register-pet
+app.get('/register', (req, res) => {
+    // Redirigir al nuevo flujo
+    res.redirect('/signup');
+});
+
+
+// ===========================================
 // RUTA PRINCIPAL - PÁGINA DE REGISTRO
 // ===========================================
-app.get('/', (req, res) => {
+app.get('/register', (req, res) => {
     const registrationHTML = `
 <!DOCTYPE html>
 <html lang="es">
